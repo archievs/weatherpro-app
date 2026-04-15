@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html data-bs-theme="dark" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherPro - Dashboard</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg glass-nav py-3 fixed-top">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fa-solid fa-cloud-bolt text-primary"></i> 
+                Weather<span class="text-primary">Pro</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navContent">
+                <ul class="navbar-nav me-auto"></ul>
+                <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
+                    <h6 class="mb-0 text-muted" id="live-clock">--:--:--</h6>
+                    
+                    <div class="btn-group" role="group">
+                        <input type="radio" class="btn-check" name="btnradio" id="unit-c" autocomplete="off" checked>
+                        <label class="btn btn-outline-primary btn-sm rounded-start-pill px-3" for="unit-c">°C</label>
+                      
+                        <input type="radio" class="btn-check" name="btnradio" id="unit-f" autocomplete="off">
+                        <label class="btn btn-outline-primary btn-sm rounded-end-pill px-3" for="unit-f">°F</label>
+                    </div>
+
+                    <div class="theme-switch py-1 px-2 rounded-pill">
+                        <input type="checkbox" id="darkToggle" class="d-none">
+                        <label for="darkToggle" class="cursor-pointer mb-0">
+                            <i class="fa-solid fa-moon text-primary"></i>
+                        </label>
+                    </div>
+
+                    {% if session.get('user_id') %}
+                        <div class="dropdown">
+                            <button class="btn btn-primary rounded-pill dropdown-toggle px-4 text-white hover-shadow" type="button" id="userMenu" data-bs-toggle="dropdown">
+                                <i class="fa-solid fa-user me-2"></i> {{ session.name }}
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end glass-dropdown mt-2 border-0 shadow-lg" aria-labelledby="userMenu">
+                                <li><a class="dropdown-item py-2" href="/dashboard"><i class="fa-solid fa-chart-line me-2 text-primary"></i> Dashboard</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item py-2 text-danger" href="/logout"><i class="fa-solid fa-right-from-bracket me-2"></i> Logout</a></li>
+                            </ul>
+                        </div>
+                    {% else %}
+                        <a href="/login" class="btn btn-outline-primary rounded-pill px-4">Login</a>
+                        <a href="/register" class="btn btn-primary rounded-pill px-4 text-white hover-shadow">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="container-fluid mt-custom toast-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, msg in messages %}
+                    <div class="alert alert-{{ category }} alert-dismissible fade show glass-card d-flex align-items-center mb-3 mt-3 shadow-sm border-0 border-start border-4 border-{{ category }}" role="alert">
+                        <div class="me-3 fs-5">
+                            {% if category == 'success' %}<i class="fa-solid fa-circle-check text-success"></i>
+                            {% elif category == 'danger' %}<i class="fa-solid fa-circle-exclamation text-danger"></i>
+                            {% elif category == 'warning' %}<i class="fa-solid fa-triangle-exclamation text-warning"></i>
+                            {% else %}<i class="fa-solid fa-circle-info text-info"></i>{% endif %}
+                        </div>
+                        <div class="fw-medium text-body">{{ msg }}</div>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow-1 {% if not session.get('user_id') %}d-flex align-items-center{% endif %}">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="glass-footer py-3 mt-auto text-center">
+        <small class="text-muted fw-medium">&copy; 2026 WeatherPro Dashboard. All rights reserved.</small>
+    </footer>
+
+    <!-- Scripts -->
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Leaflet -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom -->
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

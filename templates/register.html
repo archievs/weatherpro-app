@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container animate-fade-in w-100">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-5">
+            <div class="glass-card p-5 mt-4 rounded-4 border-0 shadow-lg">
+                <div class="text-center mb-4">
+                    <div class="d-inline-flex bg-primary bg-opacity-10 p-3 rounded-circle text-primary mb-3">
+                        <i class="fa-solid fa-user-plus fa-2x"></i>
+                    </div>
+                    <h2 class="fw-bold">Create Account</h2>
+                    <p class="text-muted">Start analyzing complex weather data today</p>
+                </div>
+
+                <form method="POST" action="/register">
+                    <div class="form-floating mb-4">
+                        <input type="text" class="form-control bg-transparent" id="name" name="name" placeholder="John Doe" required>
+                        <label for="name" class="text-muted"><i class="fa-solid fa-user me-2"></i>Full Name</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input type="email" class="form-control bg-transparent" id="email" name="email" placeholder="name@example.com" required>
+                        <label for="email" class="text-muted"><i class="fa-solid fa-envelope me-2"></i>Email address</label>
+                    </div>
+                    <div class="form-floating mb-4">
+                        <input type="password" class="form-control bg-transparent" id="password" name="password" placeholder="Password" required>
+                        <label for="password" class="text-muted"><i class="fa-solid fa-lock me-2"></i>Password</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100 py-3 rounded-pill fw-bold text-white fs-5 hover-shadow">
+                        Register Free <i class="fa-solid fa-arrow-right ms-2"></i>
+                    </button>
+                </form>
+
+                <div class="text-center mt-4">
+                    <span class="text-muted">Already have an account?</span> 
+                    <a href="/login" class="text-primary fw-semibold text-decoration-none ms-1">Sign in</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
